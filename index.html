@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="title" content="DexCompose">
+  <meta name="description" content="DexCompose reuses frozen dexterous policies through finger-level action ownership and dual residual stabilizers, reaching 77.4% success on 16 composite tasks.">
+  <meta name="keywords" content="DexCompose, dexterous manipulation, policy composition, residual learning, finger allocation, Shadow Hand, Isaac Lab, robot learning">
+  <meta name="author" content="Dihong Huang, Zhenyu Wei, Zhuxiu Xu, Yunchao Yao, Sikai Li, Mingyu Ding">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="DexCompose Project Page">
+  <meta property="og:title" content="DexCompose: Reusing Dexterous Policies for Multi-Task Manipulation with a Single Hand">
+  <meta property="og:description" content="A role-aware residual composition framework for reusing pretrained dexterous policies across multi-task manipulation.">
+  <meta property="og:url" content="./">
+  <meta property="og:image" content="static/images/social_preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="DexCompose research preview">
+  <meta property="article:published_time" content="2026-06-14T00:00:00.000Z">
+  <meta property="article:author" content="Dihong Huang, Zhenyu Wei, Zhuxiu Xu, Yunchao Yao, Sikai Li, Mingyu Ding">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="Dexterous Manipulation">
+  <meta property="article:tag" content="Policy Composition">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DexCompose: Reusing Dexterous Policies for Multi-Task Manipulation with a Single Hand">
+  <meta name="twitter:description" content="DexCompose composes pretrained full-hand policies using finger attribution, action ownership, and dual residual stabilization.">
+  <meta name="twitter:image" content="static/images/social_preview.png">
+  <meta name="twitter:image:alt" content="DexCompose research preview">
+
+  <meta name="citation_title" content="DexCompose: Reusing Dexterous Policies for Multi-Task Manipulation with a Single Hand">
+  <meta name="citation_author" content="Dihong Huang">
+  <meta name="citation_author" content="Zhenyu Wei">
+  <meta name="citation_author" content="Zhuxiu Xu">
+  <meta name="citation_author" content="Yunchao Yao">
+  <meta name="citation_author" content="Sikai Li">
+  <meta name="citation_author" content="Mingyu Ding">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_pdf_url" content="static/papers/dexcompose_arxiv.pdf">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="msapplication-TileColor" content="#0f766e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <title>DexCompose | Academic Research</title>
+
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "DexCompose: Reusing Dexterous Policies for Multi-Task Manipulation with a Single Hand",
+    "description": "DexCompose is a role-aware residual composition framework that enables the reuse of pretrained dexterous policies through explicit finger-level action ownership.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Dihong Huang",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "University of North Carolina at Chapel Hill"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Zhenyu Wei",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "University of North Carolina at Chapel Hill"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Zhuxiu Xu",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "University of North Carolina at Chapel Hill"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Yunchao Yao",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "University of North Carolina at Chapel Hill"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Sikai Li",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "University of North Carolina at Chapel Hill"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Mingyu Ding",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "University of North Carolina at Chapel Hill"
+        }
+      }
+    ],
+    "datePublished": "2026-05-28",
+    "url": "./",
+    "image": "static/images/social_preview.png",
+    "keywords": ["dexterous manipulation", "policy composition", "residual learning", "finger allocation", "robot learning"],
+    "abstract": "Dexterous manipulation policies can solve individual skills, but composing them to perform multiple tasks with a single hand remains difficult. DexCompose introduces finger-level action ownership and dual residual stabilization to reuse pretrained full-hand policies across composite manipulation tasks.",
+    "citation": "@misc{huang2026dexcompose, title={DexCompose: Reusing Dexterous Policies for Multi-Task Manipulation with a Single Hand}, author={Huang, Dihong and Wei, Zhenyu and Xu, Zhuxiu and Yao, Yunchao and Li, Sikai and Ding, Mingyu}, year={2026}, note={Preprint}, url={https://dexcompose.github.io/DexCompose-Page/}}",
+    "isAccessibleForFree": true,
+    "mainEntity": {
+      "@type": "WebPage",
+      "@id": "./"
+    },
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "Dexterous Manipulation"
+      },
+      {
+        "@type": "Thing",
+        "name": "Policy Composition"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+    <section class="hero publication-header">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <p class="publication-venue">Preprint</p>
+              <h1 class="title is-1 publication-title">
+                DexCompose: Reusing Dexterous Policies for Multi-Task Manipulation with a Single Hand
+              </h1>
+              <div class="publication-authors">
+                <span class="author-block">Dihong Huang<sup>1</sup></span>
+                <span class="author-block">Zhenyu Wei<sup>1</sup></span>
+                <span class="author-block">Zhuxiu Xu<sup>1</sup></span>
+                <span class="author-block">Yunchao Yao<sup>1</sup></span>
+                <span class="author-block">Sikai Li<sup>1</sup></span>
+                <span class="author-block">Mingyu Ding<sup>1</sup></span>
+              </div>
+              <div class="publication-affiliations">
+                <span><sup>1</sup> University of North Carolina at Chapel Hill</span>
+              </div>
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="static/papers/dexcompose_arxiv.pdf" class="external-link button is-normal is-rounded is-dark" target="_blank" rel="noopener noreferrer">
+                    <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <!-- Replace this disabled button with the arXiv abs URL after the arXiv entry is public. -->
+                <span class="link-block">
+                  <a class="external-link button is-normal is-rounded is-dark is-disabled release-link-disabled" aria-disabled="true" title="Add arXiv URL after release">
+                    <span class="icon"><i class="ai ai-arxiv"></i></span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://github.com/DexCompose/DexCompose" class="external-link button is-normal is-rounded is-dark" target="_blank" rel="noopener noreferrer">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="#BibTeX" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fas fa-quote-right"></i></span>
+                    <span>BibTeX</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero teaser">
+      <div class="container is-max-desktop">
+        <div class="hero-body">
+          <img class="teaser-image" src="static/images/dexcompose_teaser_cropped.png" alt="DexCompose composes dexterous skills through role-aware finger ownership" loading="eager">
+          <h2 class="subtitle has-text-centered teaser-caption">
+            DexCompose separates grasp preservation from downstream interaction through explicit finger ownership and dual residual stabilizers, reducing destructive interference when two pretrained full-hand policies share one dexterous hand.
+          </h2>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>
+                Dexterous manipulation policies can solve individual skills, but composing them to perform multiple tasks with a single hand remains difficult. Different tasks often compete over the same action dimensions, causing destructive interference between preserving an existing manipulation outcome and executing a new one. We propose DexCompose, a role-aware residual composition framework that enables the reuse of pretrained dexterous policies through explicit finger-level action ownership.
+              </p>
+              <p>
+                Given two pretrained full-hand policies, DexCompose first collects successful post-task states from the first skill and performs release tests over candidate finger masks to estimate which fingers are necessary for maintaining the established held state. It then trains a bounded residual stabilizer for task preservation and a context-aware residual that adapts the frozen downstream policy only within the action subspace assigned to the new task.
+              </p>
+              <p>
+                We evaluate the framework on 16 composite dexterous manipulation tasks spanning four object-retention skills and four downstream interactions. Our method achieves 77.4% average composite success, and ablation studies confirm that structural action ownership combined with dual asymmetric residuals is more effective than conventional policy chaining or unmasked residual correction.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="method">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Method</h2>
+        <div class="content has-text-justified">
+          <p>
+            DexCompose treats policy composition as an action allocation problem at the embodiment level. The framework discovers which fingers must preserve Task A, releases redundant fingers for Task B, and composes the two frozen policies using residual modules that are restricted to their assigned action subspaces.
+          </p>
+        </div>
+
+        <figure class="figure-frame">
+          <img src="static/images/dexcompose_pipeline_cropped.png" alt="DexCompose pipeline: finger attribution, action masks, and dual residual stabilizers" loading="lazy">
+          <figcaption>
+            Given two frozen single-task policies, DexCompose attributes fingers through release tests, expands the selected finger mask into action-space ownership masks, and executes the composed policy with a Task-A preservation residual and a Task-B adaptation residual.
+          </figcaption>
+        </figure>
+
+        <div class="method-points">
+          <div>
+            <h3>Finger Attribution</h3>
+            <p>Successful Task-A hold states are replayed while candidate finger subsets are released. Retention and clean-release diagnostics identify which fingers can be reassigned without losing the held object.</p>
+          </div>
+          <div>
+            <h3>Action Ownership</h3>
+            <p>The selected finger mask defines disjoint action subspaces: Task A controls preserved fingers, while Task B controls the wrist and released fingers.</p>
+          </div>
+          <div>
+            <h3>Dual Residual Stabilizer</h3>
+            <p>A bounded Task-A residual preserves the held state, and a Task-B residual adapts the downstream policy under the constraints imposed by the maintained grasp.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section demo-section" id="demos">
+      <div class="container is-max-widescreen">
+        <h2 class="title is-3 has-text-centered">Video Demos</h2>
+        <div class="content demo-intro">
+          <p>
+            Demos are grouped by the behavior they illustrate: competent single-task base policies, release-test diagnostics for finger ownership, successful composite rollouts across all task pairs, and representative failure or ablation cases.
+          </p>
+        </div>
+
+        <div class="demo-tab-row" role="tablist" aria-label="Demo groups">
+          <button class="demo-tab-button is-active" type="button" role="tab" id="tab-base-policy-demos" aria-selected="true" aria-controls="base-policy-demos" data-demo-tab="base-policy-demos">
+            Base Policies
+          </button>
+          <button class="demo-tab-button" type="button" role="tab" id="tab-release-test-demos" aria-selected="false" aria-controls="release-test-demos" data-demo-tab="release-test-demos">
+            Release Tests
+          </button>
+          <button class="demo-tab-button" type="button" role="tab" id="tab-success-demo-grid" aria-selected="false" aria-controls="success-demo-grid" data-demo-tab="success-demo-grid">
+            Success Grid
+          </button>
+          <button class="demo-tab-button" type="button" role="tab" id="tab-failure-demo-grid" aria-selected="false" aria-controls="failure-demo-grid" data-demo-tab="failure-demo-grid">
+            Failure Cases
+          </button>
+        </div>
+
+        <div class="demo-panel is-active" id="base-policy-demos" role="tabpanel" aria-labelledby="tab-base-policy-demos" data-demo-panel>
+          <div class="demo-heading">
+            <p class="demo-kicker">Primitive Skills</p>
+            <h3>Base Policy Primitives</h3>
+            <p>
+              The primitive policies solve their own tasks before composition, so the challenge is controlled reuse under one shared hand action space.
+            </p>
+          </div>
+
+          <div class="demo-grid demo-grid-four">
+            <article class="demo-card">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="GraspBall base policy">
+                <source src="static/videos/basepolicy_graspball.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body">
+                <span class="demo-tag">Retention</span>
+                <h4>GraspBall</h4>
+              </div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PickStick base policy">
+                <source src="static/videos/basepolicy_pickstick.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body">
+                <span class="demo-tag">Retention</span>
+                <h4>PickStick</h4>
+              </div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PickCan base policy">
+                <source src="static/videos/basepolicy_pickcan.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body">
+                <span class="demo-tag">Retention</span>
+                <h4>PickCan</h4>
+              </div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PourMug base policy">
+                <source src="static/videos/basepolicy_pourmug.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body">
+                <span class="demo-tag">Retention</span>
+                <h4>PourMug</h4>
+              </div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="OpenDoor base policy">
+                <source src="static/videos/basepolicy_opendoor.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body">
+                <span class="demo-tag demo-tag-alt">Downstream</span>
+                <h4>OpenDoor</h4>
+              </div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PushButton base policy">
+                <source src="static/videos/basepolicy_pushbutton.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body">
+                <span class="demo-tag demo-tag-alt">Downstream</span>
+                <h4>PushButton</h4>
+              </div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="OpenMicrowave base policy">
+                <source src="static/videos/basepolicy_openmicrowave.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body">
+                <span class="demo-tag demo-tag-alt">Downstream</span>
+                <h4>OpenMicrowave</h4>
+              </div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="TurnOnSwitch base policy">
+                <source src="static/videos/basepolicy_turnonswitch.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body">
+                <span class="demo-tag demo-tag-alt">Downstream</span>
+                <h4>TurnOnSwitch</h4>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="demo-panel" id="release-test-demos" role="tabpanel" aria-labelledby="tab-release-test-demos" data-demo-panel hidden>
+          <div class="demo-heading">
+            <p class="demo-kicker">Finger Ownership</p>
+            <h3>Release-Test Diagnostics</h3>
+            <p>
+              Each row compares one successful release mask with three failure cases for the same retained skill, illustrating how DexCompose chooses fingers that preserve the held object while freeing useful dexterity.
+            </p>
+          </div>
+
+          <div class="release-grid">
+            <div class="release-row">
+              <div class="release-label">
+                <span>Task A</span>
+                <h4>GraspBall</h4>
+              </div>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="GraspBall release test success">
+                  <source src="static/videos/releasetest-graspball-success.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Success</h5></div>
+              </article>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="GraspBall release test failure 1">
+                  <source src="static/videos/releasetest-graspball-fail-01.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Failure 1</h5></div>
+              </article>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="GraspBall release test failure 2">
+                  <source src="static/videos/releasetest-graspball-fail-02.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Failure 2</h5></div>
+              </article>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="GraspBall release test failure 3">
+                  <source src="static/videos/releasetest-graspball-fail-03.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Failure 3</h5></div>
+              </article>
+            </div>
+
+            <div class="release-row">
+              <div class="release-label">
+                <span>Task A</span>
+                <h4>PickStick</h4>
+              </div>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PickStick release test success">
+                  <source src="static/videos/releasetest-pickstick-success.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Success</h5></div>
+              </article>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PickStick release test failure 1">
+                  <source src="static/videos/releasetest-pickstick-fail-01.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Failure 1</h5></div>
+              </article>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PickStick release test failure 2">
+                  <source src="static/videos/releasetest-pickstick-fail-02.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Failure 2</h5></div>
+              </article>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PickStick release test failure 3">
+                  <source src="static/videos/releasetest-pickstick-fail-03.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Failure 3</h5></div>
+              </article>
+            </div>
+
+            <div class="release-row">
+              <div class="release-label">
+                <span>Task A</span>
+                <h4>PickCan</h4>
+              </div>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PickCan release test success">
+                  <source src="static/videos/releasetest-pickcan-success.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Success</h5></div>
+              </article>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PickCan release test failure 1">
+                  <source src="static/videos/releasetest-pickcan-fail-01.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Failure 1</h5></div>
+              </article>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PickCan release test failure 2">
+                  <source src="static/videos/releasetest-pickcan-fail-02.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Failure 2</h5></div>
+              </article>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PickCan release test failure 3">
+                  <source src="static/videos/releasetest-pickcan-fail-03.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Failure 3</h5></div>
+              </article>
+            </div>
+
+            <div class="release-row">
+              <div class="release-label">
+                <span>Task A</span>
+                <h4>PourMug</h4>
+              </div>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PourMug release test success">
+                  <source src="static/videos/releasetest-pourmug-success.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Success</h5></div>
+              </article>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PourMug release test failure 1">
+                  <source src="static/videos/releasetest-pourmug-fail-01.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Failure 1</h5></div>
+              </article>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PourMug release test failure 2">
+                  <source src="static/videos/releasetest-pourmug-fail-02.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Failure 2</h5></div>
+              </article>
+              <article class="demo-card demo-card-compact">
+                <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PourMug release test failure 3">
+                  <source src="static/videos/releasetest-pourmug-fail-03.mp4" type="video/mp4">
+                </video>
+                <div class="demo-card-body"><h5>Failure 3</h5></div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-panel" id="success-demo-grid" role="tabpanel" aria-labelledby="tab-success-demo-grid" data-demo-panel hidden>
+          <div class="demo-heading">
+            <p class="demo-kicker">Composed Behaviors</p>
+            <h3>Composite Success Grid</h3>
+            <p>
+              DexCompose preserves the retained skill while assigning the wrist and released fingers to downstream interaction across four retained skills and four downstream tasks.
+            </p>
+          </div>
+
+          <div class="success-grid" role="table" aria-label="Composite success demo grid">
+            <div class="success-grid-corner" role="columnheader">Retained Skill</div>
+            <div class="success-grid-header" role="columnheader">OpenDoor</div>
+            <div class="success-grid-header" role="columnheader">PushButton</div>
+            <div class="success-grid-header" role="columnheader">OpenMicrowave</div>
+            <div class="success-grid-header" role="columnheader">TurnOnSwitch</div>
+
+            <div class="success-row-label" role="rowheader">PickStick</div>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PickStick retained with OpenDoor">
+                <source src="static/videos/opendoor_pickstick_demo0_demo0_20260314_020249_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>PickStick + OpenDoor</h5></div>
+            </article>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PickStick retained with PushButton">
+                <source src="static/videos/pushbutton_pickstick_demo0_demo0_20260314_022249_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>PickStick + PushButton</h5></div>
+            </article>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PickStick retained with OpenMicrowave">
+                <source src="static/videos/openmicrowave_pickstick_demo0_demo0_20260314_020458_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>PickStick + OpenMicrowave</h5></div>
+            </article>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PickStick retained with TurnOnSwitch">
+                <source src="static/videos/turnonswitch_pickstick_rdemo4_ademo1_20260314_023710_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>PickStick + TurnOnSwitch</h5></div>
+            </article>
+
+            <div class="success-row-label" role="rowheader">PourCan</div>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PourCan retained with OpenDoor">
+                <source src="static/videos/opendoor_pourcan_demo0_demo0_20260314_020350_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>PourCan + OpenDoor</h5></div>
+            </article>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PourCan retained with PushButton">
+                <source src="static/videos/pushbutton_pourcan_demo0_demo0_20260314_022338_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>PourCan + PushButton</h5></div>
+            </article>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PourCan retained with OpenMicrowave">
+                <source src="static/videos/openmicrowave_pourcan_demo0_demo0_20260314_021609_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>PourCan + OpenMicrowave</h5></div>
+            </article>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PourCan retained with TurnOnSwitch">
+                <source src="static/videos/turnonswitch_pourcan_rdemo0_ademo0_20260314_023110_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>PourCan + TurnOnSwitch</h5></div>
+            </article>
+
+            <div class="success-row-label" role="rowheader">PourMug</div>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PourMug retained with OpenDoor">
+                <source src="static/videos/opendoor_pourmug_demo0_demo0_20260314_021305_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>PourMug + OpenDoor</h5></div>
+            </article>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PourMug retained with PushButton">
+                <source src="static/videos/pushbutton_pourmug_demo0_demo0_20260314_022729_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>PourMug + PushButton</h5></div>
+            </article>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PourMug retained with OpenMicrowave">
+                <source src="static/videos/openmicrowave_pourmug_demo0_demo0_20260314_021909_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>PourMug + OpenMicrowave</h5></div>
+            </article>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="PourMug retained with TurnOnSwitch">
+                <source src="static/videos/turnonswitch_pourmug_rdemo2_ademo21_20260314_024413_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>PourMug + TurnOnSwitch</h5></div>
+            </article>
+
+            <div class="success-row-label" role="rowheader">Relocate</div>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="Relocate retained with OpenDoor">
+                <source src="static/videos/opendoor_relocate_demo0_demo0_20260314_021119_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>Relocate + OpenDoor</h5></div>
+            </article>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="Relocate retained with PushButton">
+                <source src="static/videos/pushbutton_relocate_demo0_demo0_20260314_022518_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>Relocate + PushButton</h5></div>
+            </article>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="Relocate retained with OpenMicrowave">
+                <source src="static/videos/openmicrowave_relocate_demo0_demo0_20260314_022137_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>Relocate + OpenMicrowave</h5></div>
+            </article>
+            <article class="demo-card demo-card-grid">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="Relocate retained with TurnOnSwitch">
+                <source src="static/videos/turnonswitch_relocate_rdemo2_ademo2_20260314_023450_zoom.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body"><h5>Relocate + TurnOnSwitch</h5></div>
+            </article>
+          </div>
+        </div>
+
+        <div class="demo-panel" id="failure-demo-grid" role="tabpanel" aria-labelledby="tab-failure-demo-grid" data-demo-panel hidden>
+          <div class="demo-heading">
+            <p class="demo-kicker">Comparison Cases</p>
+            <h3>Baseline and Ablation Failure Cases</h3>
+            <p>
+              Direct chaining and missing residual components expose the main failure modes: weak downstream contact, unstable transitions, or loss of the retained object.
+            </p>
+          </div>
+
+          <div class="demo-grid demo-grid-three">
+            <article class="demo-card">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="Frozen grasp failure case 1">
+                <source src="static/videos/frozen-grasp-1.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body">
+                <span class="demo-tag demo-tag-warning">Frozen Grasp</span>
+                <h4>Failure Case 1</h4>
+              </div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="Frozen grasp failure case 2">
+                <source src="static/videos/frozen-grasp-2.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body">
+                <span class="demo-tag demo-tag-warning">Frozen Grasp</span>
+                <h4>Failure Case 2</h4>
+              </div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="Frozen grasp failure case 3">
+                <source src="static/videos/frozen-grasp-3.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body">
+                <span class="demo-tag demo-tag-warning">Frozen Grasp</span>
+                <h4>Failure Case 3</h4>
+              </div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="Frozen grasp failure case 4">
+                <source src="static/videos/frozen-grasp-4.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body">
+                <span class="demo-tag demo-tag-warning">Frozen Grasp</span>
+                <h4>Failure Case 4</h4>
+              </div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="No Task A residual ablation">
+                <source src="static/videos/No-taska.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body">
+                <span class="demo-tag demo-tag-danger">Ablation</span>
+                <h4>No Task-A Residual</h4>
+              </div>
+            </article>
+            <article class="demo-card">
+              <video class="demo-video" controls muted loop playsinline preload="none" aria-label="No Task B residual ablation">
+                <source src="static/videos/No-taskb.mp4" type="video/mp4">
+              </video>
+              <div class="demo-card-body">
+                <span class="demo-tag demo-tag-danger">Ablation</span>
+                <h4>No Task-B Residual</h4>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light" id="results">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Results</h2>
+
+        <div class="metric-strip">
+          <div class="metric">
+            <span class="metric-value">16</span>
+            <span class="metric-label">Composite Tasks</span>
+          </div>
+          <div class="metric">
+            <span class="metric-value">77.4%</span>
+            <span class="metric-label">Mean Success</span>
+          </div>
+          <div class="metric">
+            <span class="metric-value">+15.8 pp</span>
+            <span class="metric-label">Over Strongest Baseline</span>
+          </div>
+          <div class="metric">
+            <span class="metric-value">32 x 8</span>
+            <span class="metric-label">Rollouts per Pair</span>
+          </div>
+        </div>
+
+        <div class="content has-text-justified">
+          <p>
+            Experiments are conducted in Isaac Lab with a Shadow Hand. Task A contains four object-retention skills: GraspBall, PourMug, PickCan, and PickStick. Task B contains four downstream interactions: OpenDoor, PushButton, OpenMicrowave, and TurnOnSwitch. A rollout succeeds only when the Task-A object remains retained and Task B is completed.
+          </p>
+        </div>
+
+        <div class="table-container">
+          <table class="table is-fullwidth results-table">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Mean Composite Success</th>
+                <th>Role in Comparison</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Frozen Grasp</td>
+                <td>3.09 +/- 0.72</td>
+                <td>Sequential execution with frozen grasp-maintaining fingers</td>
+              </tr>
+              <tr>
+                <td>Decomposed Action Space</td>
+                <td>45.61 +/- 1.94</td>
+                <td>Fixed subspace split without release-test validation</td>
+              </tr>
+              <tr>
+                <td>Residual Learning</td>
+                <td>61.60 +/- 2.31</td>
+                <td>Unmasked residual correction over the combined policy</td>
+              </tr>
+              <tr>
+                <td>Ours-ZS</td>
+                <td>69.23 +/- 1.60</td>
+                <td>Finger allocation and Task-A stabilizer without Task-B residual</td>
+              </tr>
+              <tr class="is-selected-row">
+                <td>DexCompose</td>
+                <td>77.43 +/- 2.64</td>
+                <td>Finger attribution, action ownership, and dual residual stabilization</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <figure class="figure-frame">
+          <img src="static/images/dexcompose_preservation.png" alt="Base-policy preservation analysis for DexCompose" loading="lazy">
+          <figcaption>
+            DexCompose preserves both sides of the composed behavior, achieving A-side and B-side preservation ratios of 0.811 and 0.893 while maintaining the highest composite success.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Ablations and Diagnostics</h2>
+        <div class="content has-text-justified">
+          <p>
+            Component ablations show that the Task-A residual is essential for preserving the first manipulation outcome. Finger allocation and action masking reduce cross-task interference, while the Task-B residual and transition stage further improve execution robustness.
+          </p>
+        </div>
+
+        <div class="table-container">
+          <table class="table is-fullwidth results-table compact-table">
+            <thead>
+              <tr>
+                <th>Variant</th>
+                <th>Mean Success</th>
+                <th>Interpretation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="is-selected-row">
+                <td>DexCompose</td>
+                <td>77.43 +/- 2.64</td>
+                <td>Full method</td>
+              </tr>
+              <tr>
+                <td>Ours-ZS</td>
+                <td>69.23 +/- 1.60</td>
+                <td>Removes Task-B residual</td>
+              </tr>
+              <tr>
+                <td>-Finger</td>
+                <td>54.52 +/- 2.09</td>
+                <td>Removes finger allocation</td>
+              </tr>
+              <tr>
+                <td>-Task-A</td>
+                <td>9.13 +/- 1.29</td>
+                <td>Removes Task-A residual stabilizer</td>
+              </tr>
+              <tr>
+                <td>-Mask</td>
+                <td>59.13 +/- 1.75</td>
+                <td>Removes action masking</td>
+              </tr>
+              <tr>
+                <td>-Trans.</td>
+                <td>69.02 +/- 2.07</td>
+                <td>Removes transition stage</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <figure class="figure-frame">
+          <img src="static/images/dexcompose_failures.png" alt="Failure-mode breakdown for DexCompose across task combinations" loading="lazy">
+          <figcaption>
+            Failure modes vary by downstream interaction. Transition failures dominate difficult combinations, TurnOnSwitch causes more preservation failures, and OpenMicrowave more often fails from limited downstream progress under constrained grasp configurations.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <div class="bibtex-header">
+          <h2 class="title">BibTeX</h2>
+          <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+            <i class="fas fa-copy"></i>
+            <span class="copy-text">Copy</span>
+          </button>
+        </div>
+        <pre id="bibtex-code"><code>@misc{huang2026dexcompose,
+  title={DexCompose: Reusing Dexterous Policies for Multi-Task Manipulation with a Single Hand},
+  author={Huang, Dihong and Wei, Zhenyu and Xu, Zhuxiu and Yao, Yunchao and Li, Sikai and Ding, Mingyu},
+  year={2026},
+  note={Preprint},
+  url={https://dexcompose.github.io/DexCompose-Page/}
+}</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>, adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
